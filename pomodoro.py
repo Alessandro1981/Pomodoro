@@ -48,7 +48,7 @@ class PomodoroApp:
         while self.is_running and self.time_left > 0:
             time.sleep(1)
             self.time_left -= 1
-            self.root.after(0, self.update_label())
+            self.root.after(0, self.update_label)
         if self.is_running and self.time_left == 0:
             self.beep()
             if self.is_pomodoro:
@@ -61,7 +61,7 @@ class PomodoroApp:
                 self.is_pomodoro = True
                 self.time_left = POMODORO_DURATION
                 self.status_label.config(text="Pomodoro")
-            self.root.after(0, self.update_label())
+            self.root.after(0, self.update_label)
             self.timer_countdown()  # Ricomincia automaticamente
 
     def start_timer(self):
