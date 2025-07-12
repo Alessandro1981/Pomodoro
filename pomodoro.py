@@ -1,6 +1,9 @@
 import time
 import threading
-import winsound
+try:
+    import winsound
+except ImportError:  # pragma: no cover - optional dependency
+    winsound = None
 import tkinter as tk
 from tkinter import messagebox
 
@@ -13,7 +16,7 @@ class PomodoroApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Pomodoro Timer")
-        self.root.geometry("300x150")
+        self.root.geometry("350x200")
         self.root.resizable(False, False)
 
         self.is_running = False
@@ -26,19 +29,46 @@ class PomodoroApp:
         self.status_label = tk.Label(root, text="Pomodoro", font=("Helvetica", 14))
         self.status_label.pack()
 
-        self.start_button = tk.Button(root, text="Start", command=self.start_timer)
+        self.start_button = tk.Button(
+            root,
+            text="Start",
+            command=self.start_timer,
+            width=8,
+            height=2,
+            font=("Helvetica", 14),
+        )
         self.start_button.pack(side=tk.LEFT, padx=10, pady=10)
 
-        self.pause_button = tk.Button(root, text="Pause", command=self.pause_timer, state=tk.DISABLED)
+        self.pause_button = tk.Button(
+            root,
+            text="Pause",
+            command=self.pause_timer,
+            state=tk.DISABLED,
+            width=8,
+            height=2,
+            font=("Helvetica", 14),
+        )
         self.pause_button.pack(side=tk.LEFT, padx=10, pady=10)
 
-        self.reset_button = tk.Button(root, text="Reset", command=self.reset_timer, state=tk.DISABLED)
+        self.reset_button = tk.Button(
+            root,
+            text="Reset",
+            command=self.reset_timer,
+            state=tk.DISABLED,
+            width=8,
+            height=2,
+            font=("Helvetica", 14),
+        )
         self.reset_button.pack(side=tk.LEFT, padx=10, pady=10)
 
         self.timer_thread = None
 
     def beep(self):
-        winsound.Beep(FREQUENZA_SUONO, DURATA_SUONO)
+        if winsound is not None:
+            winsound.Beep(FREQUENZA_SUONO, DURATA_SUONO)
+        else:
+            # Fallback for systems without winsound
+            self.root.bell()
 
     def update_label(self):
         mins, secs = divmod(self.time_left, 60)
