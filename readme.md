@@ -1,5 +1,7 @@
 # Pomodoro Timer
 
+Versione **1.0**
+
 Un semplice timer Pomodoro con interfaccia grafica realizzato in Python.
 
 ## Caratteristiche
